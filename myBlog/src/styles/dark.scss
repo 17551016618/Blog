@@ -1,10 +1,12 @@
 [data-theme="dark"] {
-  .title {
-    color: red;
+  .el-header.header-container,
+  .el-menu.el-menu--horizontal.el-menu-demo {
+    background-color: #000;
   }
 }
 [data-theme="light"] {
-  .title {
-    color: #fff;
+  .el-header.header-container,
+  .el-menu.el-menu--horizontal.el-menu-demo {
+    background-color: #fff;
   }
 }

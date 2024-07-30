@@ -1,9 +1,10 @@
 import { fileURLToPath, URL } from "node:url";
-
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
+import path from "path";
+import VueSetupExtend from "vite-plugin-vue-setup-extend"; //引入插件
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), VueSetupExtend()],
 
   resolve: {
     alias: {
@@ -19,6 +20,11 @@ export default defineConfig({
         target: "http://localhost:8081",
         changeOrigin: true,
         rewrite: (p) => p.replace(/^\/test/, ""),
+      },
+      "/vvhan": {
+        target: "https://api.vvhan.com",
+        changeOrigin: true,
+        rewrite: (p) => p.replace(/^\/vvhan/, ""),
       },
     },
   },

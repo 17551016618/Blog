@@ -1,104 +1,139 @@
 <template>
-  <div>
-    <h1 class="title">主页</h1>
-    <el-button type="primary">按钮</el-button>
-    <el-button type="primary">按钮</el-button>
-    <h1 class="title">主页</h1>
-    <el-tag>Tag 1</el-tag>
-    <h1
-      class="animate__animated animate__bounce"
-      @mouseenter="mouseenter"
-      @mouseleave="mouseleave"
-    >
-      An animated element
-    </h1>
+  <div id="homepage" ref="homepageRef">
+    <img :src="themeMode == 'light' ? bgday : bgdark" alt="" class="bg" />
+    <div class="star star1"></div>
+    <div class="star star2"></div>
+    <div class="star star3"></div>
+ 
   </div>
 </template>
-
+<script></script>
 <script setup>
-import { useThemeStore } from "@/stores/theme";
-import { storeToRefs } from "pinia";
-const store = useThemeStore();
-const { colors } = storeToRefs(store);
-console.log(colors.value);
-function mouseenter(e) {
-  e.target.className = "animate__animated animate__bounce";
-}
-function mouseleave(e) {
-  e.target.className = "";
-}
-// document.documentElement.style.setProperty(
-//   "--el-button--primary",
-//   colors.value[4]
-// );
+import {
+  ref,
+  reactive,
+  getCurrentInstance,
+  nextTick,
+  onMounted,
+  computed,
+} from "vue";
+const { proxy } = getCurrentInstance();
+// function mouseenter(e) {
+//   e.target.className = "animate__animated animate__bounce";
+// }
+// function mouseleave(e) {
+//   e.target.className = "";
+// }
 
-// document.documentElement.setAttribute("data-theme", "dark");
-// 给element样式进行修改
-handleThemeStyle("#0fad70");
-function handleThemeStyle(theme) {
-  document.documentElement.style.setProperty("--el-color-primary", theme);
-  for (let i = 1; i <= 9; i++) {
-    document.documentElement.style.setProperty(
-      `--el-color-primary-light-${i}`,
-      `${getLightColor(theme, i / 10)}`
-    );
-  }
-  for (let i = 1; i <= 9; i++) {
-    document.documentElement.style.setProperty(
-      `--el-color-primary-dark-${i}`,
-      `${getDarkColor(theme, i / 10)}`
-    );
-  }
-}
-// 变浅颜色值
-function getLightColor(color, level) {
-  let rgb = hexToRgb(color);
-  for (let i = 0; i < 3; i++) {
-    rgb[i] = Math.floor((255 - rgb[i]) * level + rgb[i]);
-  }
-  return rgbToHex(rgb[0], rgb[1], rgb[2]);
-}
-
-// 变深颜色值
-function getDarkColor(color, level) {
-  let rgb = hexToRgb(color);
-  for (let i = 0; i < 3; i++) {
-    rgb[i] = Math.floor(rgb[i] * (1 - level));
-  }
-  return rgbToHex(rgb[0], rgb[1], rgb[2]);
-}
-// rgb颜色转Hex颜色
-function rgbToHex(r, g, b) {
-  let hexs = [r.toString(16), g.toString(16), b.toString(16)];
-  for (let i = 0; i < 3; i++) {
-    if (hexs[i].length == 1) {
-      hexs[i] = `0${hexs[i]}`;
+onMounted(() => {
+  // 创建星星
+  var element = document.getElementById("homepage");
+  function animate() {
+    for (let i = 0; i < 50; i++) {
+      let random = function left() {
+        return Math.pow(Math.random() * 10, 2);
+      };
+      let el = document.createElement("div");
+      element.appendChild(el);
+      el.style.width = "2px";
+      el.style.height = "2px";
+      el.style.background = "#fff";
+      el.style.position = "absolute";
+      el.style.left = random() + "%";
+      el.style.top = random() + "%";
     }
   }
-  return `#${hexs.join("")}`;
-}
-// hex颜色转rgb颜色
-function hexToRgb(str) {
-  str = str.replace("#", "");
-  let hexs = str.match(/../g);
-  for (let i = 0; i < 3; i++) {
-    hexs[i] = parseInt(hexs[i], 16);
-  }
-  return hexs;
-}
-
-// axios测试
-import { homepageapi } from "@/api/homepage.ts";
-homepageapi({ config_name: "标签质检" }).then((res) => {
-  console.log(res, 93);
+  animate();
 });
+// 根据主题判断主页背景图
+import { storeToRefs } from "pinia";
+import { useThemeStore } from "@/stores/theme";
+const store = useThemeStore();
+const { themeMode } = storeToRefs(store);
+import bgday from "@/assets/image/bg-day.jpg";
+import bgdark from "@/assets/image/bg.png";
 </script>
 
 <style lang="scss" scoped>
+#homepage {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #161823;
+  position: relative;
+  .bg {
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    z-index: 100;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .star1 {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    animation: animate1 5s linear infinite;
+  }
+  .star2 {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    animation: animate2 3s linear infinite;
+  }
+  .star3 {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    animation: animate3 5s linear infinite;
+  }
+  @keyframes animate1 {
+    0% {
+      left: 70%;
+      top: 100%;
+    }
+
+    100% {
+      left: 70%;
+      top: 0;
+    }
+  }
+  @keyframes animate2 {
+    0% {
+      left: 30%;
+      top: 100%;
+    }
+    100% {
+      left: 30%;
+      top: 0;
+    }
+  }
+  @keyframes animate3 {
+    0% {
+      left: 0;
+      top: 100%;
+    }
+    100% {
+      left: 100%;
+      top: 0;
+    }
+  }
+}
+
 .title {
   background: var(--el-color-primary-light-4);
-}
-.animate__animated.animate__bounce {
-  --animate-duration: 2s;
 }
 </style>

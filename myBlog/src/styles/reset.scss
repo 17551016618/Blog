@@ -2,6 +2,7 @@
 @import "./element.scss"; //引入重置element组件库样式的文件
 @import "./iconfont.scss";
 @import "./dark.scss";
+$test-color: #ff2e63;
 /* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
 html {
   color: #333;

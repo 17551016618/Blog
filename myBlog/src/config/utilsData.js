@@ -1398,6 +1398,12 @@ export const UTILS = [
         path: "https://threejs.org/",
         favicon: "http://www.amoureux555.xyz/threejs.ico",
       },
+      {
+        name: "beeflow",
+        title: "beeflow",
+        path: "https://www.beeflow.top/",
+        favicon: "",
+      },
     ],
   },
 ];
